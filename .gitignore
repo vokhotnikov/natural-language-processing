@@ -104,3 +104,8 @@ ENV/
 data/
 
 .idea
+
+*.gz
+*.pkl
+
+project/thread_embedding_by_tag

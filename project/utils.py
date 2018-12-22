@@ -49,13 +49,16 @@ def load_embeddings(embeddings_path):
     ########################
     #### YOUR CODE HERE ####
     ########################
-
-    # remove this when you're done
-    raise NotImplementedError(
-        "Open utils.py and fill with your code. In case of Google Colab, download"
-        "(https://github.com/hse-aml/natural-language-processing/blob/master/project/utils.py), "
-        "edit locally and upload using '> arrow on the left edge' -> Files -> UPLOAD")
-
+    e = {}
+    dims = 0
+    for line in open(embeddings_path):
+        a = line.strip().split('\t')
+        e[a[0]] = [float(x) for x in a[1:]]
+        if dims == 0:
+            dims = len(a) - 1
+    
+    return (e, dims)
+        
 
 def question_to_vec(question, embeddings, dim):
     """Transforms a string to an embedding by averaging word embeddings."""
@@ -65,13 +68,12 @@ def question_to_vec(question, embeddings, dim):
     ########################
     #### YOUR CODE HERE ####
     ########################
-
-    # remove this when you're done
-    raise NotImplementedError(
-        "Open utils.py and fill with your code. In case of Google Colab, download"
-        "(https://github.com/hse-aml/natural-language-processing/blob/master/project/utils.py), "
-        "edit locally and upload using '> arrow on the left edge' -> Files -> UPLOAD")
-
+    words = question.split()
+    vectors = [embeddings[w] for w in words if w in embeddings]
+    if len(vectors) == 0:
+        return np.zeros(dim)
+    else:
+        return np.mean(np.array(vectors), axis=0)
 
 def unpickle_file(filename):
     """Returns the result of unpickling the file content."""
